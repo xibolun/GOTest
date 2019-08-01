@@ -1,0 +1,13 @@
+.idea/*
+cmd/*
+bin/*
+idcos/*
+.vscode/*
+
+rpmbuild/*
+
+.scannerwork/*
+.sonarlint/*
+
+pkg/*
+.cache/*
