@@ -1,3 +1,6 @@
+/**
+	go language basic test
+ */
 package basic
 
 import (
@@ -12,6 +15,7 @@ func TestAddPerson(t *testing.T) {
 	//AddPerson()
 }
 
+// TestPersonReflect
 func TestPersonReflect(t *testing.T) {
 
 	per := Person{

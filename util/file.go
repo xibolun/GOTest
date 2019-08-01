@@ -26,7 +26,7 @@ func CreateFileRecursive(path string) error {
 	pPath := filepath.Dir(path)
 	if !IsExist(pPath) {
 		if err := os.MkdirAll(pPath, 0755); err != nil {
-			return fmt.Errorf("mkdri %s fail,%s", pPath, err.Error())
+			return fmt.Errorf("mkdir %s fail,%s", pPath, err.Error())
 		}
 	}
 
@@ -35,7 +35,6 @@ func CreateFileRecursive(path string) error {
 	}
 
 	return nil
-
 }
 
 // GetFileList 获取目录下的文件列表

@@ -21,17 +21,17 @@ var keyMap = map[string]string{
 
 //--- PASS: TestLoop_1 (0.00s)
 //    --- PASS: TestLoop_1/B_key (0.00s)
-//        range_test.go:21: key:B_key, value:B_value
+//        test_test.go:21: key:B_key, value:B_value
 //    --- PASS: TestLoop_1/C_key (0.00s)
-//        range_test.go:21: key:C_key, value:C_value
+//        test_test.go:21: key:C_key, value:C_value
 //    --- PASS: TestLoop_1/D_key (0.00s)
-//        range_test.go:21: key:D_key, value:D_value
+//        test_test.go:21: key:D_key, value:D_value
 //    --- PASS: TestLoop_1/E_key (0.00s)
-//        range_test.go:21: key:E_key, value:E_value
+//        test_test.go:21: key:E_key, value:E_value
 //    --- PASS: TestLoop_1/F_key (0.00s)
-//        range_test.go:21: key:F_key, value:F_value
+//        test_test.go:21: key:F_key, value:F_value
 //    --- PASS: TestLoop_1/A_key (0.00s)
-//        range_test.go:21: key:A_key, value:A_value
+//        test_test.go:21: key:A_key, value:A_value
 func TestLoop_1(t *testing.T) {
 	t.Parallel()
 	for k, v := range keyMap {
@@ -43,17 +43,17 @@ func TestLoop_1(t *testing.T) {
 
 //--- PASS: TestLoop_2 (0.00s)
 //    --- PASS: TestLoop_2/A_key (0.00s)
-//        range_test.go:44: key:F_key, value:F_value
+//        test_test.go:44: key:F_key, value:F_value
 //    --- PASS: TestLoop_2/D_key (0.00s)
-//        range_test.go:44: key:F_key, value:F_value
+//        test_test.go:44: key:F_key, value:F_value
 //    --- PASS: TestLoop_2/C_key (0.00s)
-//        range_test.go:44: key:F_key, value:F_value
+//        test_test.go:44: key:F_key, value:F_value
 //    --- PASS: TestLoop_2/B_key (0.00s)
-//        range_test.go:44: key:F_key, value:F_value
+//        test_test.go:44: key:F_key, value:F_value
 //    --- PASS: TestLoop_2/E_key (0.00s)
-//        range_test.go:44: key:F_key, value:F_value
+//        test_test.go:44: key:F_key, value:F_value
 //    --- PASS: TestLoop_2/F_key (0.00s)
-//        range_test.go:44: key:F_key, value:F_value
+//        test_test.go:44: key:F_key, value:F_value
 func TestLoop_2(t *testing.T) {
 
 	for k, v := range keyMap {
@@ -66,17 +66,17 @@ func TestLoop_2(t *testing.T) {
 
 //--- PASS: TestLoop_2 (0.00s)
 //    --- PASS: TestLoop_2/D_key (0.00s)
-//        range_test.go:58: key:C_key, value:D_value
+//        test_test.go:58: key:C_key, value:D_value
 //    --- PASS: TestLoop_2/C_key (0.00s)
-//        range_test.go:58: key:C_key, value:C_value
+//        test_test.go:58: key:C_key, value:C_value
 //    --- PASS: TestLoop_2/A_key (0.00s)
-//        range_test.go:58: key:C_key, value:A_value
+//        test_test.go:58: key:C_key, value:A_value
 //    --- PASS: TestLoop_2/B_key (0.00s)
-//        range_test.go:58: key:C_key, value:B_value
+//        test_test.go:58: key:C_key, value:B_value
 //    --- PASS: TestLoop_2/F_key (0.00s)
-//        range_test.go:58: key:C_key, value:F_value
+//        test_test.go:58: key:C_key, value:F_value
 //    --- PASS: TestLoop_2/E_key (0.00s)
-//        range_test.go:58: key:C_key, value:E_value
+//        test_test.go:58: key:C_key, value:E_value
 func TestLoop_3(t *testing.T) {
 
 	for k, v := range keyMap {
