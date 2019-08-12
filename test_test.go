@@ -108,7 +108,7 @@ func TestLoop_4(t *testing.T) {
 	}
 }
 
-//https://github.com/kyoh86/scopelint/blob/master/README.md
+// https://github.com/kyoh86/scopelint/blob/master/README.md
 func TestLoop_5(t *testing.T) {
 	var copies []*string
 	for _, val := range keyMap {

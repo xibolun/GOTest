@@ -38,6 +38,7 @@ func TestRand2(t *testing.T) {
 	fmt.Println(rand.Intn(100))
 	fmt.Println(rand.Intn(100))
 }
+
 // seed设置为动态的才会保证随机生成
 func TestRand3(t *testing.T) {
 	rand.Seed(time.Now().Unix())
@@ -46,4 +47,27 @@ func TestRand3(t *testing.T) {
 	fmt.Println(rand.Intn(100))
 	fmt.Println(rand.Intn(100))
 	fmt.Println(rand.Intn(100))
+}
+
+func TestLoop(t *testing.T) {
+	rand.Seed(time.Now().Unix())
+	r := rand.Intn(100)
+	ok := true
+DONE:
+	for {
+
+		if r%2 == 0 {
+			fmt.Printf("%d mod 2 ==0\n", r)
+		}
+
+		if r%2 == 1 {
+			fmt.Printf("%d mod 2 ==1\n", r)
+
+			ok = false
+			break DONE
+		}
+		break DONE
+	}
+
+	fmt.Println(ok)
 }

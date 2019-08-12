@@ -23,12 +23,11 @@ func AddPerson() {
 	fmt.Println(r)
 	fmt.Println(fmt.Sprintf("the field num is : %d", r.NumField()))
 
-
 	field0 := r.Field(0)
 	field1 := r.Field(1)
 
 	fmt.Println(fmt.Sprintf("---------- field 0 is : %s", field0))
-	fmt.Println(fmt.Sprintf("---------- field 1 is : %d", field1))
+	fmt.Println(fmt.Sprintf("---------- field 1 is : %v", field1))
 
 	fmt.Println("----------- start to change value  ---------------")
 
@@ -38,6 +37,6 @@ func AddPerson() {
 	fmt.Println(fmt.Sprintf("---------- field 0 is : %s", field0))
 	r.Field(1).SetInt(20)
 	field0 = r.Field(1)
-	fmt.Println(fmt.Sprintf("---------- field 1 is : %d", field1))
+	fmt.Println(fmt.Sprintf("---------- field 1 is : %v", field1))
 
 }

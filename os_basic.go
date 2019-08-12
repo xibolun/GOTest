@@ -2,17 +2,15 @@ package basic
 
 import (
 	"fmt"
-	"os/user"
+	u "os/user"
 )
 
 func OSUser() {
 	// user
-	u, _ := user.Lookup("admin")
-	fmt.Printf("user.Lookup info : %s", ToJsonString(u))
+	u1, _ := u.Lookup("admin")
+	fmt.Printf("user.Lookup info : %s", ToJsonString(u1))
 
 	// cureent user
-	current, _ := user.Current()
+	current, _ := u.Current()
 	fmt.Printf("current user : %s", ToJsonString(current))
 }
-
-

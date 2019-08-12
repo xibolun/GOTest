@@ -150,6 +150,66 @@ func TestSL6(t *testing.T) {
 	a1 := append(a, 'd')
 	a2 := append(a, 'g')
 
-	fmt.Println(string(a1)) // bag
+	fmt.Println(string(a1)) // bad
 	fmt.Println(string(a2)) // bag
+}
+
+func TestAppend1(t *testing.T) {
+	src := []int{1, 2, 3, 4, 5}
+	var dst2 []*int
+	for _, i := range src {
+		dst2 = append(dst2, &i)
+	}
+
+	for _, p := range dst2 {
+		fmt.Print(*p)
+	}
+}
+
+func TestAppend2(t *testing.T) {
+	src := []int{1, 2, 3, 4, 5}
+
+	// 输出55555
+	for _, p := range copySlicePoint(src) {
+		fmt.Print(*p)
+	}
+
+	fmt.Println()
+
+	// 输出55555
+	for _, p := range copySlicePoint2(src) {
+		fmt.Print(*p)
+	}
+
+	fmt.Println()
+
+	// 输出12345
+	for _, p := range copySlice(src) {
+		fmt.Print(p)
+	}
+}
+
+func copySlicePoint(src []int) []*int {
+	var dst2 []*int
+	for _, i := range src {
+		dst2 = append(dst2, &i)
+	}
+	return dst2
+}
+func copySlicePoint2(src []int) []*int {
+	var dst2 []*int
+	var j *int
+	for _, i := range src {
+		j = &i
+		dst2 = append(dst2, j)
+	}
+	return dst2
+}
+
+func copySlice(src []int) []int {
+	var dst2 []int
+	for _, i := range src {
+		dst2 = append(dst2, i)
+	}
+	return dst2
 }

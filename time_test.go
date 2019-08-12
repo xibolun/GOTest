@@ -47,6 +47,8 @@ func Test_time(t *testing.T) {
 	fmt.Printf("isBefore: %t\n", time.Now().Before(startTime))
 	fmt.Printf("since from startTime: %f\n", time.Since(startTime).Seconds())
 	fmt.Printf("time truncate: %s\n", startTime.Truncate(2*time.Hour))
+	fmt.Printf("day truncate: %s\n", startTime.Truncate(24*time.Hour))
+	fmt.Printf("day minus: %s\n", startTime.Add(-24*time.Hour))
 
 }
 
@@ -117,7 +119,7 @@ func Test_Duration(t *testing.T) {
 	1000838681
 	0.016680644683333332
 	0.00027801074472222223
-	 */
+	*/
 
 	fmt.Println(dur.Seconds())
 	fmt.Println(dur.Nanoseconds())

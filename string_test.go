@@ -187,3 +187,10 @@ func TestGetPasswd(t *testing.T) {
 	}
 	fmt.Println(str)
 }
+
+func TestStr(t *testing.T) {
+	str := "123"
+	//str[0] = 'a' 虽然string是数组，但是不能给它的index进行赋值
+	//([]byte)(str)[1] = "b"  同样的道理
+	fmt.Printf("%v", str)
+}
