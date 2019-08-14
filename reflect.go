@@ -6,8 +6,33 @@ import (
 )
 
 type Person struct {
-	Name string
-	Age  int
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+}
+
+func (p Person) toMap() map[string]interface{} {
+	//pV := reflect.ValueOf(p).Elem()
+	//
+	//for i := 0; i < pV.NumField(); i++ {
+	//	vv := pV.Field(i)
+	//	kk := pV.Type().Field(i)
+	//
+	//	mapper[kk.Name] = vv
+	//}
+	//return mapper
+
+	mapper := make(map[string]interface{})
+	vv := reflect.ValueOf(p)
+	kk := reflect.TypeOf(p)
+
+	for i := 0; i < kk.NumField(); i++ {
+		if len(kk.Field(i).Tag) == 0 {
+			mapper[kk.Field(i).Name] = vv.Field(i).Interface()
+			continue
+		}
+		mapper[kk.Field(i).Tag.Get("json")] = vv.Field(i).Interface()
+	}
+	return mapper
 }
 
 func AddPerson() {
