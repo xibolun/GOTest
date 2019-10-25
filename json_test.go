@@ -101,3 +101,17 @@ func TestProgressLogString(t *testing.T) {
 	fmt.Println(ToJsonString(mapper))
 
 }
+
+func TestUnmashal2(t *testing.T) {
+	// null 和 0都會轉成0
+	str := `{"age": 0}`
+	type Age struct {
+		Age int `json:"age,omitempty"`
+	}
+	var age Age
+
+	json.Unmarshal([]byte(str), &age)
+
+	fmt.Println(age.Age)
+}
+

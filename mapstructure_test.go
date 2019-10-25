@@ -2,9 +2,10 @@ package basic
 
 import (
 	"fmt"
-	"github.com/mitchellh/mapstructure"
 	"sync"
 	"testing"
+
+	"github.com/mitchellh/mapstructure"
 )
 
 func Test_mapstructure(t *testing.T) {

@@ -1,10 +1,10 @@
 package basic
 
 import (
-	"io/ioutil"
-	"fmt"
-	"os"
 	"bufio"
+	"fmt"
+	"io/ioutil"
+	"os"
 )
 
 var path = "/tmp/Swagger UI.html"

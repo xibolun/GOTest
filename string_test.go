@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"reflect"
+	"regexp"
 	"sort"
 	"strings"
 	"testing"
@@ -69,11 +70,25 @@ func TestReplace(t *testing.T) {
 //Test Trim
 func TestTrim(t *testing.T) {
 	str := "\"\"aa233aa\""
-	fmt.Println(strings.Trim(str, "aa"))
-	fmt.Println(strings.Trim("aa,bb,cc,dd", ","))
-	fmt.Println(strings.TrimLeft(str, "aa"))
-	fmt.Println(strings.TrimRight(str, "aa"))
-	fmt.Println(strings.Trim(str, "\""))
+	fmt.Printf("Trim : %s\n", strings.Trim(str, "aa"))
+	fmt.Printf("TrimSuffix : %s\n", strings.TrimSuffix(str, "aa"))
+	fmt.Printf("trim : %s\n", strings.Trim("aa,bb,cc,dd", ","))
+	fmt.Printf("TrimLeft : %s\n", strings.TrimLeft(str, "aa"))
+	fmt.Printf("TrimRight : %s\n", strings.TrimRight(str, "aa"))
+	fmt.Printf("trim : %s\n", strings.Trim(str, "\""))
+	fmt.Printf("trim : %s\n", strings.TrimSpace("          10.39.240.229"))
+
+	// https://groups.google.com/forum/#!topic/golang-nuts/WAItFEvrhmU
+	// TrimRight会截断掉给出的cutset所有的组合，以下TrimRigth都只输出A
+	// TrimRight returns a slice of the string s, with all trailing Unicode code points     contained in cutset removed.
+
+	// To remove a suffix, use TrimSuffix instead.
+	fmt.Printf("TrimRigth: %s\n", strings.TrimRight("A06-09~06", "-09~06"))
+	fmt.Printf("TrimRigth: %s\n", strings.TrimRight("A-9-09~06", "-09~06"))
+	fmt.Printf("TrimRigth: %s\n", strings.TrimRight("A9-09~06", "-09~06"))
+	fmt.Printf("TrimRigth: %s\n", strings.TrimRight("A~9-09~06", "-09~06"))
+	fmt.Printf("TrimRigth: %s\n", strings.TrimRight("A69-09~06", "-09~06"))
+	fmt.Printf("TrimSuffix: %s\n", strings.TrimSuffix("A06-09~06", "-09~06"))
 
 	ss := "\"No trouble was found with this adapter.  However Error Log Analysis indicates that there recently may have been a network problem.  If this adapter is connected to a network, and if you you are experiencing problems with network communications, check for a loose or defective cable or connection.  If a switch or another system is directly attached to this adapter, verify it is powered up, configured, and functioning correctly.\""
 	fmt.Println(strings.Trim(ss, "\\\""))
@@ -193,4 +208,28 @@ func TestStr(t *testing.T) {
 	//str[0] = 'a' 虽然string是数组，但是不能给它的index进行赋值
 	//([]byte)(str)[1] = "b"  同样的道理
 	fmt.Printf("%v", str)
+}
+
+func TestDecodeRuby(t *testing.T) {
+	rubyBytes := []byte{4, 8, 123, 15, 58, 9, 98, 111, 100, 121, 34, 2, 10, 1, 4, 8, 123, 9, 58, 10, 97, 103, 101, 110, 116, 73, 34, 10, 115, 104, 101, 108, 108, 6, 58, 6, 69, 84, 58, 11, 97, 99, 116, 105, 111, 110, 73, 34, 8, 114, 117, 110, 6, 59, 6, 84, 58, 11, 99, 97, 108, 108, 101, 114, 73, 34, 15, 99, 108, 111, 117, 100, 45, 97, 99, 116, 50, 6, 59, 6, 84, 58, 9, 100, 97, 116, 97, 123, 15, 58, 9, 116, 121, 112, 101, 73, 34, 11, 115, 99, 114, 105, 112, 116, 6, 59, 6, 84, 58, 9, 117, 115, 101, 114, 73, 34, 9, 114, 111, 111, 116, 6, 59, 6, 84, 58, 12, 99, 111, 109, 109, 97, 110, 100, 73, 34, 16, 115, 99, 114, 105, 112, 116, 58, 47, 116, 109, 112, 6, 59, 6, 84, 58, 13, 102, 105, 108, 101, 110, 97, 109, 101, 73, 34, 8, 116, 109, 112, 6, 59, 6, 84, 58, 12, 99, 111, 110, 116, 101, 110, 116, 73, 34, 13, 90, 87, 78, 111, 98, 119, 61, 61, 6, 59, 6, 84, 58, 11, 98, 97, 115, 101, 54, 52, 84, 58, 11, 112, 97, 114, 97, 109, 115, 73, 34, 0, 6, 59, 6, 84, 58, 15, 115, 99, 114, 105, 112, 116, 84, 121, 112, 101, 73, 34, 9, 66, 97, 115, 104, 6, 59, 6, 84, 58, 19, 112, 114, 111, 99, 101, 115, 115, 95, 114, 101, 115, 117, 108, 116, 84, 58, 16, 101, 110, 118, 105, 114, 111, 110, 109, 101, 110, 116, 73, 34, 0, 6, 59, 6, 84, 58, 13, 115, 101, 110, 100, 101, 114, 105, 100, 73, 34, 15, 99, 108, 111, 117, 100, 45, 97, 99, 116, 50, 6, 58, 6, 69, 84, 58, 14, 114, 101, 113, 117, 101, 115, 116, 105, 100, 73, 34, 46, 97, 99, 116, 50, 45, 102, 99, 53, 100, 56, 57, 54, 54, 45, 102, 54, 53, 53, 45, 56, 51, 101, 102, 45, 97, 53, 56, 51, 45, 56, 51, 97, 53, 50, 48, 99, 48, 97, 101, 48, 102, 6, 59, 7, 84, 58, 11, 102, 105, 108, 116, 101, 114, 123, 7, 73, 34, 10, 97, 103, 101, 110, 116, 6, 59, 7, 84, 91, 6, 73, 34, 10, 115, 104, 101, 108, 108, 6, 59, 7, 84, 58, 15, 99, 111, 108, 108, 101, 99, 116, 105, 118, 101, 73, 34, 16, 109, 99, 111, 108, 108, 101, 99, 116, 105, 118, 101, 6, 59, 7, 84, 59, 10, 73, 34, 16, 109, 99, 111, 108, 108, 101, 99, 116, 105, 118, 101, 6, 59, 7, 84, 58, 10, 97, 103, 101, 110, 116, 73, 34, 10, 115, 104, 101, 108, 108, 6, 59, 7, 84, 58, 13, 99, 97, 108, 108, 101, 114, 105, 100, 73, 34, 20, 99, 101, 114, 116, 61, 99, 108, 111, 117, 100, 45, 97, 99, 116, 50, 6, 59, 7, 84, 58, 8, 116, 116, 108, 105, 2, 16, 14, 58, 12, 109, 115, 103, 116, 105, 109, 101, 108, 43, 7, 101, 103, 111, 93, 58, 9, 104, 97, 115, 104, 73, 34, 37, 49, 57, 57, 51, 101, 98, 98, 52, 56, 97, 53, 101, 49, 49, 98, 97, 57, 102, 100, 48, 57, 56, 49, 53, 99, 102, 102, 101, 100, 55, 49, 102, 6, 59, 7, 70}
+	fmt.Printf("%s\n", string(rubyBytes))
+}
+
+func TestReplaceAll(t *testing.T) {
+	//origin := []byte("hello_world_cloudboot")
+	//numberSequence := regexp.MustCompile(`([a-zA-Z])(\d+)([a-zA-Z]?)`)
+	//dest:=numberSequence.ReplaceAll(origin, []byte(`$3 $2 $1`))
+	//fmt.Println(string(dest))
+
+	reg := regexp.MustCompile(`(\w+)\s(\w+)\s(\w+)`)
+	str := "hello world cloudboot"
+	dest := reg.ReplaceAll([]byte(str), []byte(`$3 $2 $1`))
+	// output: cloudboot world hello
+	fmt.Println(string(dest))
+
+	dest = reg.ReplaceAll([]byte(str), []byte(`$1 $2 $3`))
+	fmt.Println(reg.NumSubexp())
+	fmt.Println(reg.SubexpNames())
+	fmt.Println(string(dest))
+
 }

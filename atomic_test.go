@@ -20,11 +20,18 @@ func Test(t *testing.T) {
 	fmt.Println(atomic.LoadInt32(&b))
 }
 
+func TestUnit(t *testing.T) {
+	var i uint
+	j := -1
+	fmt.Println(i - 1)
+	fmt.Println(uint(j))
+}
+
 func TestSubtraction(t *testing.T) {
 	a1 := uint(2)
 	b1 := uint(3)
 	fmt.Println(a1 - b1)
-	
+
 	a2 := uint8(2)
 	b2 := uint8(3)
 	fmt.Println(a2 - b2)

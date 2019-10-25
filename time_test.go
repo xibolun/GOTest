@@ -18,6 +18,7 @@ func Test_time(t *testing.T) {
 	fmt.Printf("current time (YYYY-MM-DD): %s\n", time.Now().Format("2006-01-02"))
 	fmt.Printf("current time (YYYY-MM-DD HH:mm:ss): %s\n", time.Now().Format("2006-01-02 15:04:05"))
 	fmt.Printf("current time (YYYY-MM-DD HH:mm): %s\n", time.Now().Format("2006-01-02 15:04"))
+	fmt.Printf("current time (YYYYMMDDHHmmss): %s\n", time.Now().Format("20060102150405"))
 
 	// year month day weekday
 	fmt.Printf("yearday: %d\n", time.Now().YearDay())
@@ -61,13 +62,21 @@ func DaySinceTime(t time.Time) int {
 }
 
 func StrToTime(str, layout string) time.Time {
-	time2, _ := time.ParseInLocation(layout, str, time.Now().Location())
+	time2, _ := time.ParseInLocation(layout, str, time.Local)
 	return time2
 }
 
 //TimestampToTime
 func TimestampToTime(stamp int64) time.Time {
 	return time.Unix(stamp, 0)
+}
+
+func TestStringToTime(t *testing.T) {
+	time1, _ := time.ParseInLocation("2006-01-02", "2099-09-01", time.Local)
+	time2, _ := time.ParseInLocation("2006-01-02", "2099-09-01", time.Local)
+
+	fmt.Println(time1)
+	fmt.Println(time2)
 }
 
 func Test_LongToStr(t *testing.T) {

@@ -86,3 +86,8 @@ func ToJsonString(v interface{}) string {
 	}
 	return string(bytes)
 }
+
+// TODO xorm struct to json
+//func XormToJSON(xorm interface{}) string {
+//
+//}

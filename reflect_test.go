@@ -97,5 +97,41 @@ func TestPersonReflect2(t *testing.T) {
 
 	// To map
 	fmt.Printf("person to map: %v\n", per.toMap())
+}
 
+// 反射Slice 并进行反射操作
+func TestPersonReflect3(t *testing.T) {
+	var persons []Person
+	for i := 0; i < 10; i++ {
+		persons = append(persons, Person{
+			Name: fmt.Sprintf("张三%d", i),
+			Age:  20 + i,
+		})
+	}
+
+	kk := reflect.TypeOf(persons).Kind()
+	values := reflect.ValueOf(persons)
+
+	fmt.Printf("type of interface, %v\n", kk)
+	fmt.Printf("value of interface, %v\n", values)
+
+	if values.Len() > 0 {
+		types := reflect.TypeOf(values.Index(0))
+		for i := 0; i < types.NumField(); i++ {
+			fmt.Printf(types.Field(i).Name)
+		}
+
+	}
+
+	//for i := 0; i < values.Len(); i++ {
+	//	vv := values.Index(i)
+	//	//fmt.Printf("value of interface, %v\n", vv)
+	//	fmt.Printf("elem %v", vv.Type())
+	//	types := reflect.TypeOf(vv)
+	//	for i := 0; i < types.NumField(); i++ {
+	//		fmt.Printf("type of interface, %v\n", types.Field(i).Name)
+	//
+	//	}
+	//
+	//}
 }
