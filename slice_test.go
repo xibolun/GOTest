@@ -189,6 +189,26 @@ func TestAppend2(t *testing.T) {
 	}
 }
 
+func TestAppend3(t *testing.T) {
+	sl := make([]int, 0, 2)
+	fmt.Printf("current len %d, cap %d, value %v\n", len(sl), cap(sl), sl)
+	sl = append(sl, []int{1, 2}...)
+	fmt.Printf("current len %d, cap %d, value %v\n", len(sl), cap(sl), sl)
+
+	// len值与cap值一样
+	ss := make([]int, 2)
+	fmt.Printf("current len %d, cap %d, value %v\n", len(ss), cap(ss), ss)
+	// append的时候会在len后面进行累加
+	ss = append(ss, []int{1, 2}...)
+	fmt.Printf("current len %d, cap %d, value %v\n", len(ss), cap(ss), ss)
+
+	//current len 0, cap 2, value []
+	//current len 2, cap 2, value [1 2]
+	//current len 2, cap 2, value [0 0]
+	//current len 4, cap 4, value [0 0 1 2]
+
+}
+
 func copySlicePoint(src []int) []*int {
 	var dst2 []*int
 	for _, i := range src {

@@ -115,3 +115,18 @@ func TestUnmashal2(t *testing.T) {
 	fmt.Println(age.Age)
 }
 
+func TestUnmarshalOption(t *testing.T) {
+	options := "{\"username\":\"salt-api\", \"password\":\"yunjikeji\"}"
+	//ChannelOption salt channel option
+	type ChannelOption struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	var option ChannelOption
+	err := json.Unmarshal([]byte(options), &option)
+	if err != nil {
+		t.Error(err)
+	}
+
+}

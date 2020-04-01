@@ -28,7 +28,7 @@ func TestProducerAndCustomer(t *testing.T) {
 	go Producer(5, ch)
 	go Customer(ch)
 
-	////靠体眠是无法保证稳定的输出结果
+	////靠休眠是无法保证稳定的输出结果
 	//time.Sleep(2 * time.Second)
 
 	sig := make(chan os.Signal)

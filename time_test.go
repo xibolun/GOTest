@@ -6,6 +6,16 @@ import (
 	"time"
 )
 
+// 日期处理
+// 最近一周
+// 最近半个月
+// 最近一个月
+// 最近半年
+// 最近一年
+// 是否闰年
+// 一年共多少天
+// 最后一天
+// 当前月份最后一天
 func Test_time(t *testing.T) {
 	// current time
 	fmt.Printf("current time : %s\n", time.Now())
@@ -15,13 +25,17 @@ func Test_time(t *testing.T) {
 	fmt.Printf("current time (Stamp): %s\n", time.Now().Format(time.Stamp))
 	fmt.Printf("current time (RFC1123): %s\n", time.Now().Format(time.RFC1123))
 	fmt.Printf("current time (UnixDate): %s\n", time.Now().Format(time.UnixDate))
+	fmt.Printf("current time (Stamp): %s\n", time.Now().Format(time.Stamp))
+	fmt.Printf("current time (UTC): %s\n", time.Now().UTC().String())
 	fmt.Printf("current time (YYYY-MM-DD): %s\n", time.Now().Format("2006-01-02"))
 	fmt.Printf("current time (YYYY-MM-DD HH:mm:ss): %s\n", time.Now().Format("2006-01-02 15:04:05"))
 	fmt.Printf("current time (YYYY-MM-DD HH:mm): %s\n", time.Now().Format("2006-01-02 15:04"))
 	fmt.Printf("current time (YYYYMMDDHHmmss): %s\n", time.Now().Format("20060102150405"))
 
 	// year month day weekday
-	fmt.Printf("yearday: %d\n", time.Now().YearDay())
+	fmt.Printf("year day: %d\n", time.Now().YearDay())
+	fmt.Printf("day of year: %d\n", DayOfYear())
+	fmt.Printf("day of half year: %d\n", DayOfHalfYear())
 	fmt.Printf("current Year: %d\n", time.Now().Year())
 	fmt.Printf("current Month: %s\n", time.Now().Month())
 	fmt.Printf("current Month(int): %d\n", time.Now().Month())
@@ -53,14 +67,39 @@ func Test_time(t *testing.T) {
 
 }
 
+// 一年有多少天
+// 先获取最后一天，再获取第一天，
+func DayOfYear() int {
+	year := time.Now().Year()
+	lastDay := time.Date(year, 12, 31, 24, 59, 59, 0, time.Now().Location())
+	firstDay := time.Date(year, 1, 1, 0, 0, 0, 0, time.Now().Location())
+	return int(lastDay.Sub(firstDay).Hours() / 24)
+}
+
+// 一年的最后一天
+func LastDayOfYear() time.Time {
+	return time.Date(time.Now().Year(), 12, 31, 24, 59, 59, 0, time.Now().Location())
+}
+
+// 半年有多少天
+func DayOfHalfYear() int {
+	year := time.Now().Year()
+	lastDay := time.Date(year, 6, 30, 24, 59, 59, 0, time.Now().Location())
+	firstDay := time.Date(year, 1, 1, 0, 0, 0, 0, time.Now().Location())
+	return int(lastDay.Sub(firstDay).Hours() / 24)
+}
+
+// 距离现在多少天
 func DayFromNow(t time.Time) int {
 	return int(time.Now().Sub(t).Hours() / 24)
 }
 
+// 距离现在多少天
 func DaySinceTime(t time.Time) int {
 	return int(time.Since(t).Hours() / 24)
 }
 
+// string转time
 func StrToTime(str, layout string) time.Time {
 	time2, _ := time.ParseInLocation(layout, str, time.Local)
 	return time2
@@ -73,10 +112,10 @@ func TimestampToTime(stamp int64) time.Time {
 
 func TestStringToTime(t *testing.T) {
 	time1, _ := time.ParseInLocation("2006-01-02", "2099-09-01", time.Local)
-	time2, _ := time.ParseInLocation("2006-01-02", "2099-09-01", time.Local)
+	time2, _ := time.ParseInLocation("2006-01-02 15:04:05", "2016-12-15 17:54:31", time.Local)
 
 	fmt.Println(time1)
-	fmt.Println(time2)
+	fmt.Println(time2.Format("20060102150405"))
 }
 
 func Test_LongToStr(t *testing.T) {

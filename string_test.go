@@ -7,10 +7,23 @@ import (
 	"reflect"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
 )
+
+func RemoveFunc(s string, f func(rune) bool) string {
+	rs := []rune(s)
+	var tmp []rune
+	for i := 0; i < len(rs); i++ {
+		if f(rs[i]) {
+			continue
+		}
+		tmp = append(tmp, rs[i])
+	}
+	return string(tmp)
+}
 
 func TestSubstr(t *testing.T) {
 	fmt.Println(Substr("hello", 0, 10))
@@ -161,6 +174,16 @@ func TestCompare(t *testing.T) {
 	fmt.Println("12/20/2018 15:35:50" < "01/15/2019 07:45:27")
 }
 
+func TestNullSlice(t *testing.T) {
+	//sl := make([]string, 0)
+	//sl := []string{""}
+	sl := []string{}
+
+	for i := range sl {
+		fmt.Printf("hello,%d\n", i)
+	}
+}
+
 //getField 获取field value
 func TestgetField(t *testing.T) string {
 	//1 | 07/22/2016 | 15:41:43 | Event Logging Disabled SEL | Log area reset/cleared | Asserted
@@ -232,4 +255,70 @@ func TestReplaceAll(t *testing.T) {
 	fmt.Println(reg.SubexpNames())
 	fmt.Println(string(dest))
 
+}
+
+func TestField(t *testing.T) {
+	for _, item := range strings.Fields("hello world") {
+		fmt.Println(item)
+	}
+}
+
+func TestTrimFunc(t *testing.T) {
+	a := []byte("hello world")
+	binaryStr := fmt.Sprintf("%8b", a)
+
+	fmt.Println(strings.Replace(binaryStr, " ", "", -1))
+
+	// rune与byte的区别是，rune是四个字节，而byte是一个字节
+	// rune是unicode编码
+	str := strings.TrimFunc(binaryStr, func(r rune) bool {
+		return r == 91 || r == 93
+	})
+
+	fmt.Println(str)
+}
+
+func TestRemoveFunc(t *testing.T) {
+	a := []byte("hello world")
+	binaryStr := fmt.Sprintf("%8b", a)
+
+	str := RemoveFunc(binaryStr, func(r rune) bool {
+		return r == 91 || r == 93 || r == 32
+	})
+
+	fmt.Println(str)
+}
+
+// BenchmarkEmptyString-4   	2000000000	         0.42 ns/op  空string测试结果
+// BenchmarkEmptyString-4   	2000000000	         0.36 ns/op  uuid测试结果
+func BenchmarkEmptyString(t *testing.B) {
+	ss := "2BB42903-8127-4A6B-A034-B0252FAE97E5"
+	for i := 0; i < t.N; i++ {
+		_ = len(ss) <= 0
+	}
+}
+
+// BenchmarkEmptyString2-4   	2000000000	         0.84 ns/op  空string测试结果
+// BenchmarkEmptyString2-4   	2000000000	         0.35 ns/op  uuid测试结果
+func BenchmarkEmptyString2(t *testing.B) {
+	ss := "2BB42903-8127-4A6B-A034-B0252FAE97E5"
+	for i := 0; i < t.N; i++ {
+		_ = ss == ""
+	}
+}
+
+// BenchmarkIntToStr-4   	10000000	       132 ns/op
+func BenchmarkIntToStr(t *testing.B) {
+	var a = 10
+	for i := 0; i < t.N; i++ {
+		fmt.Sprintf("%d", a)
+	}
+}
+
+// BenchmarkIntToStr2-4   	300000000	         4.51 ns/op
+func BenchmarkIntToStr2(t *testing.B) {
+	var a = 10
+	for i := 0; i < t.N; i++ {
+		strconv.Itoa(a)
+	}
 }

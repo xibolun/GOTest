@@ -14,7 +14,7 @@ func TestCustomer(t *testing.T) {
 	}
 
 	var replay string
-	if err := client.Call("HelloService.Hello", " world", &replay); err != nil {
+	if err := client.Call("HelloService.Hello", "world", &replay); err != nil {
 		t.Error(err)
 	}
 

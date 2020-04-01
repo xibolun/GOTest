@@ -135,3 +135,23 @@ func TestPersonReflect3(t *testing.T) {
 	//
 	//}
 }
+
+func TestBaseReflect(t *testing.T) {
+	aa := 1
+	bb := 1.0
+	cc := true
+	dd := "123"
+	ee := &Person{
+		Name: "zhangsan",
+		Age:  20,
+	}
+	ff := []string{"hello", "abc"}
+
+	fmt.Printf("type of interface, %v\n", reflect.ValueOf(aa).Kind())
+	fmt.Printf("type of interface, %v\n", reflect.ValueOf(bb).Kind())
+	fmt.Printf("type of interface, %v\n", reflect.ValueOf(cc).Kind())
+	fmt.Printf("type of interface, %v\n", reflect.ValueOf(dd).Kind())
+	fmt.Printf("type of interface, %v\n", reflect.ValueOf(ee).Kind())
+	fmt.Printf("type of interface, %v\n", reflect.ValueOf(ff).Kind())
+
+}
