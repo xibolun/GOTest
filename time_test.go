@@ -47,6 +47,9 @@ func Test_time(t *testing.T) {
 	fmt.Printf("日子过了多少天: %d\n", DayFromNow(time.Date(2015, 5, 8, 0, 0, 0, 0, time.Now().Location())))
 	fmt.Printf("日子过了多少天: %d\n", DaySinceTime(time.Date(2015, 5, 8, 0, 0, 0, 0, time.Now().Location())))
 
+	// 两天相差多久
+	fmt.Printf("两天相差： %d\n", int(time.Date(2020, 7, 11, 0, 0, 0, 0, time.Now().Location()).Sub(time.Date(2018, 12, 18, 0, 0, 0, 0, time.Now().Location())).Hours()/24))
+
 	// string date to time
 	fmt.Printf("string date to time %s\n", StrToTime("2018-05-08", "2006-01-02"))
 	fmt.Printf("isEqual: %t\n", time.Now().Equal(time.Now())) //time.now两次是不相等的

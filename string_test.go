@@ -11,6 +11,7 @@ import (
 	"strings"
 	"testing"
 	"time"
+	"unsafe"
 )
 
 func RemoveFunc(s string, f func(rune) bool) string {
@@ -23,6 +24,19 @@ func RemoveFunc(s string, f func(rune) bool) string {
 		tmp = append(tmp, rs[i])
 	}
 	return string(tmp)
+}
+
+func TestIntegerConversion(t *testing.T) {
+	intI, _ := strconv.ParseInt("10", 0, 0)
+	int8I, _ := strconv.ParseInt("10", 0, 8)
+	int16I, _ := strconv.ParseInt("10", 0, 16)
+	int32I, _ := strconv.ParseInt("10", 0, 32)
+	int64I, _ := strconv.ParseInt("10", 0, 64)
+	fmt.Printf("parseInt 0 result: value: %d, size: %d\n", intI, unsafe.Sizeof(int(intI)))
+	fmt.Printf("parseInt 8 result: value: %d, size: %d\n", int8I, unsafe.Sizeof(int8(int8I)))
+	fmt.Printf("parseInt 16 result: value: %d, size: %d\n", int16I, unsafe.Sizeof(int16(int16I)))
+	fmt.Printf("parseInt 32 result: value: %d, size: %d\n", int32I, unsafe.Sizeof(int32(int32I)))
+	fmt.Printf("parseInt 64 result: value: %d, size: %d\n", int64I, unsafe.Sizeof(int64(int64I)))
 }
 
 func TestSubstr(t *testing.T) {
@@ -86,6 +100,8 @@ func TestTrim(t *testing.T) {
 	fmt.Printf("Trim : %s\n", strings.Trim(str, "aa"))
 	fmt.Printf("TrimSuffix : %s\n", strings.TrimSuffix(str, "aa"))
 	fmt.Printf("trim : %s\n", strings.Trim("aa,bb,cc,dd", ","))
+	fmt.Printf("trim : %s\n", strings.TrimLeft("token=eyJhbGciOiJIUzI1NiJ9.", "token="))
+	fmt.Printf("trim : %s\n", string("token=eyJhbGciOiJIUzI1NiJ9.")[6:])
 	fmt.Printf("TrimLeft : %s\n", strings.TrimLeft(str, "aa"))
 	fmt.Printf("TrimRight : %s\n", strings.TrimRight(str, "aa"))
 	fmt.Printf("trim : %s\n", strings.Trim(str, "\""))
@@ -236,6 +252,59 @@ func TestStr(t *testing.T) {
 func TestDecodeRuby(t *testing.T) {
 	rubyBytes := []byte{4, 8, 123, 15, 58, 9, 98, 111, 100, 121, 34, 2, 10, 1, 4, 8, 123, 9, 58, 10, 97, 103, 101, 110, 116, 73, 34, 10, 115, 104, 101, 108, 108, 6, 58, 6, 69, 84, 58, 11, 97, 99, 116, 105, 111, 110, 73, 34, 8, 114, 117, 110, 6, 59, 6, 84, 58, 11, 99, 97, 108, 108, 101, 114, 73, 34, 15, 99, 108, 111, 117, 100, 45, 97, 99, 116, 50, 6, 59, 6, 84, 58, 9, 100, 97, 116, 97, 123, 15, 58, 9, 116, 121, 112, 101, 73, 34, 11, 115, 99, 114, 105, 112, 116, 6, 59, 6, 84, 58, 9, 117, 115, 101, 114, 73, 34, 9, 114, 111, 111, 116, 6, 59, 6, 84, 58, 12, 99, 111, 109, 109, 97, 110, 100, 73, 34, 16, 115, 99, 114, 105, 112, 116, 58, 47, 116, 109, 112, 6, 59, 6, 84, 58, 13, 102, 105, 108, 101, 110, 97, 109, 101, 73, 34, 8, 116, 109, 112, 6, 59, 6, 84, 58, 12, 99, 111, 110, 116, 101, 110, 116, 73, 34, 13, 90, 87, 78, 111, 98, 119, 61, 61, 6, 59, 6, 84, 58, 11, 98, 97, 115, 101, 54, 52, 84, 58, 11, 112, 97, 114, 97, 109, 115, 73, 34, 0, 6, 59, 6, 84, 58, 15, 115, 99, 114, 105, 112, 116, 84, 121, 112, 101, 73, 34, 9, 66, 97, 115, 104, 6, 59, 6, 84, 58, 19, 112, 114, 111, 99, 101, 115, 115, 95, 114, 101, 115, 117, 108, 116, 84, 58, 16, 101, 110, 118, 105, 114, 111, 110, 109, 101, 110, 116, 73, 34, 0, 6, 59, 6, 84, 58, 13, 115, 101, 110, 100, 101, 114, 105, 100, 73, 34, 15, 99, 108, 111, 117, 100, 45, 97, 99, 116, 50, 6, 58, 6, 69, 84, 58, 14, 114, 101, 113, 117, 101, 115, 116, 105, 100, 73, 34, 46, 97, 99, 116, 50, 45, 102, 99, 53, 100, 56, 57, 54, 54, 45, 102, 54, 53, 53, 45, 56, 51, 101, 102, 45, 97, 53, 56, 51, 45, 56, 51, 97, 53, 50, 48, 99, 48, 97, 101, 48, 102, 6, 59, 7, 84, 58, 11, 102, 105, 108, 116, 101, 114, 123, 7, 73, 34, 10, 97, 103, 101, 110, 116, 6, 59, 7, 84, 91, 6, 73, 34, 10, 115, 104, 101, 108, 108, 6, 59, 7, 84, 58, 15, 99, 111, 108, 108, 101, 99, 116, 105, 118, 101, 73, 34, 16, 109, 99, 111, 108, 108, 101, 99, 116, 105, 118, 101, 6, 59, 7, 84, 59, 10, 73, 34, 16, 109, 99, 111, 108, 108, 101, 99, 116, 105, 118, 101, 6, 59, 7, 84, 58, 10, 97, 103, 101, 110, 116, 73, 34, 10, 115, 104, 101, 108, 108, 6, 59, 7, 84, 58, 13, 99, 97, 108, 108, 101, 114, 105, 100, 73, 34, 20, 99, 101, 114, 116, 61, 99, 108, 111, 117, 100, 45, 97, 99, 116, 50, 6, 59, 7, 84, 58, 8, 116, 116, 108, 105, 2, 16, 14, 58, 12, 109, 115, 103, 116, 105, 109, 101, 108, 43, 7, 101, 103, 111, 93, 58, 9, 104, 97, 115, 104, 73, 34, 37, 49, 57, 57, 51, 101, 98, 98, 52, 56, 97, 53, 101, 49, 49, 98, 97, 57, 102, 100, 48, 57, 56, 49, 53, 99, 102, 102, 101, 100, 55, 49, 102, 6, 59, 7, 70}
 	fmt.Printf("%s\n", string(rubyBytes))
+}
+
+// TODO 写一个提取字符串的工具
+func TestFieldsFunc(t *testing.T) {
+	dsn := "root:Yunjikeji#123@tcp(10.0.2.8:3306)/cloudboot_3.0.0?charset=utf8&parseTime=True&loc=Local"
+
+	schema := "$:$@tcp($)/$?charset=utf8&parseTime=True&loc=Local"
+
+	var result []string
+	var start int
+	for _, it := range strings.Split(schema, "$") {
+		if it == "" {
+			continue
+		}
+		itIndex := strings.Index(dsn, it)
+		result = append(result, dsn[start:itIndex])
+		start = itIndex + len(it)
+	}
+
+	fmt.Println(result)
+
+	userIndex := strings.Index(dsn, ":")
+	passwordIndex := strings.Index(dsn, "@tcp(")
+	hostportIndex := strings.Index(dsn, ")/")
+	dbIndex := strings.Index(dsn, "?charset")
+
+	fmt.Println(userIndex)
+	fmt.Println(passwordIndex)
+	fmt.Println(hostportIndex)
+	fmt.Println(dbIndex)
+
+	fmt.Println(dsn[:userIndex])
+	fmt.Println(dsn[userIndex+1 : passwordIndex])
+	fmt.Println(dsn[passwordIndex+5 : hostportIndex])
+	fmt.Println(dsn[hostportIndex+2 : dbIndex])
+
+	//for _, s := range strs {
+	//	fmt.Println(s)
+	//}
+}
+
+func TestFieldsSpace(t *testing.T) {
+	str := "root:  Yunjikeji#123@tcp(10.0.2.8:33  06)/cloudboot_3.0.0?charset=utf8&parseTime=True&loc=Local"
+	//
+	//strs := strings.FieldsFunc(str, func(r rune) bool {
+	//	return unicode.IsSpace(r)
+	//})
+
+	strs := strings.Fields(str)
+
+	for _, s := range strs {
+		fmt.Println(s)
+	}
 }
 
 func TestReplaceAll(t *testing.T) {
