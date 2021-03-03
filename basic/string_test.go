@@ -326,6 +326,17 @@ func TestReplaceAll(t *testing.T) {
 
 }
 
+func TestEq(t *testing.T){
+	var ss []string
+	var s string
+	ss = nil
+	println(ss)
+	println(s)
+
+	println(strings.Join(ss,","))
+	println(strings.Join(ss,",")==s)
+}
+
 func TestField(t *testing.T) {
 	for _, item := range strings.Fields("hello world") {
 		fmt.Println(item)

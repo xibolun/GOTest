@@ -143,6 +143,23 @@ func TestWaitGroup11(t *testing.T) {
 	WaitGroup(2, 3, 0)
 }
 
+func TestWaitGroup12(t *testing.T) {
+	var wg sync.WaitGroup
+
+	f := func(wg *sync.WaitGroup) {
+		wg.Done()
+	}
+
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go f(&wg)
+	}
+
+	wg.Wait()
+
+	fmt.Println("program is done")
+}
+
 func WaitGroup(procs, wgAdd, second int) {
 	fmt.Printf("test start, procs: %d, wgAdd: %d, second: %d\n", procs, wgAdd, second)
 	runtime.GOMAXPROCS(procs)

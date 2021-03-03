@@ -35,9 +35,8 @@ func TestLoop10(t *testing.T) {
 	LoopGroup()
 }
 func Loop10Order() {
+	c := make(chan int)
 	for i := 0; i < 10; i++ {
-		c := make(chan int)
-
 		go func(c chan int) {
 			fmt.Println(<-c)
 		}(c)
@@ -58,11 +57,17 @@ func LoopGroup() {
 }
 
 func Loop10() {
-	c := make(chan int)
+	c := make(chan struct{})
 	for i := 0; i < 10; i++ {
 		go func(i int) {
 			fmt.Println(i)
 		}(i)
 	}
+	go func(){
+		time.Sleep(2*time.Second)
+		close(c)
+	}()
 	<-c
+
+	fmt.Println("all done")
 }
