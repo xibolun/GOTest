@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-resty/resty"
+	"gopkg.in/resty.v1"
 )
 
 func Test_http(t *testing.T) {

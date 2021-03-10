@@ -1,11 +1,11 @@
-package main
+package basic
 
 import (
 	"fmt"
 	"testing"
 )
 
-func TestSwap(t *testing.T) {
+func TestSwapA(t *testing.T) {
 	var a, b = 1, 2
 
 	swap(&a, &b)
