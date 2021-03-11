@@ -11,7 +11,7 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func (c *RClient) Consumer(exchangeName, routeKey, queueName string, res chan interface{}) {
+func (c *RClient) Consumer(exchangeName, routeKey, queueName string) {
 	//_, err := c.ch.QueueDeclare(queueName, true, false, true, false, nil)
 	//failOnError(err, "Failed to declare a queue")
 
@@ -24,24 +24,32 @@ func (c *RClient) Consumer(exchangeName, routeKey, queueName string, res chan in
 	msgs, err := c.ch.Consume(queueName, "", true, false, false, false, nil)
 	failOnError(err, "Failed to register a consumer")
 
-	forever := make(chan bool)
-
-	go func() {
-		for d := range msgs {
+	for {
+		select {
+		case d := <-msgs:
 			result := McoResult{}
-			log.Printf("get mq message from %s, message: %s", queueName, string(d.Body))
+			//log.Printf("get mq message from %s, message: %s", queueName, string(d.Body))
 			if err = UnRubyMarshal(d.Body, &result); err != nil {
 				log.Printf("ruby unmarshal fail, %s", err.Error())
 				continue
 			}
 
-			res <- result
-			log.Printf("Body is %v\n", result.Body)
+			log.Printf("MsgTime is %s\n", time.Unix(result.MsgTime, 0).Format("2006-01-02 15:04:05"))
+			log.Printf("RequestID is %s\n", result.RequestID)
+			log.Printf("SenderAgent is %s\n", result.SenderAgent)
+			log.Printf("SenderID is %s\n", result.SenderID)
+			log.Printf("----------------> done")
+			//log.Printf("Hash is %s\n", result.Hash)
+			//log.Printf("TTL is %d\n", result.TTL)
+			//log.Printf("Agent is %s\n", result.Agent)
+			//log.Printf("Collective is %s\n", result.Collective)
+			//log.Printf("CallerID is %s\n", result.CallerID)
+			//log.Printf("Compound is %v\n", result.Compound)
+			//log.Printf("Fact is %v\n", result.Fact)
+			//log.Printf("CfClass is %v\n", result.CfClass)
+			//log.Printf("Body is %s\n", string(result.Body))
 		}
-	}()
-
-	log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
-	<-forever
+	}
 }
 
 func (c *RClient) RoutingKeyConsumer(exchangeName, routeKey, queueName string) {
@@ -78,6 +86,7 @@ func (c *RClient) RoutingKeyConsumer(exchangeName, routeKey, queueName string) {
 			log.Printf("Compound is %v\n", result.Compound)
 			log.Printf("Fact is %v\n", result.Fact)
 			log.Printf("CfClass is %v\n", result.CfClass)
+			log.Printf("----------------> done")
 
 			//body := make([]string, 0)
 			//if err = UnRubyMarshal([]byte(result.Body), &body); err != nil {
@@ -85,7 +94,6 @@ func (c *RClient) RoutingKeyConsumer(exchangeName, routeKey, queueName string) {
 			//	continue
 			//}
 			//log.Printf("Body is %v\n", body)
-			log.Printf("Body is %s\n", string(result.Body))
 
 		}
 	}()
