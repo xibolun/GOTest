@@ -31,8 +31,8 @@ func Test1(t *testing.T) {
 
 func TestLoop10(t *testing.T) {
 	//Loop10()
-	//Loop10Order()
-	LoopGroup()
+	Loop10Order()
+	//LoopGroup()
 }
 func Loop10Order() {
 	c := make(chan int)

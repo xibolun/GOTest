@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	g "github.com/soniah/gosnmp"
+	g "github.com/gosnmp/gosnmp"
 )
 
 func TestSNMPReceiver(t *testing.T) {

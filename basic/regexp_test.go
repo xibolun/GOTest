@@ -10,6 +10,14 @@ func TestNumber(t *testing.T) {
 	fmt.Println(Match(`^[0-9]+$`, "032413"))
 }
 
+func TestCheckSyntax(t *testing.T) {
+	reg := `([^\s\w])(\s*\1)+`
+	if _, err := regexp.Compile(reg); err != nil {
+		t.Error(err.Error())
+	}
+
+}
+
 func TestPhone(t *testing.T) {
 	reg := `^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$`
 	fmt.Println(Match(reg, "133"))

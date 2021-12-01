@@ -87,10 +87,17 @@ func TestReplace(t *testing.T) {
 	fmt.Println(strings.Replace(str, "%s", "1", 0))
 	fmt.Println(strings.Replace(str, "%s", "1", 1))
 	fmt.Println(strings.Replace(str, "%s", "1", -1))
+	fmt.Println(strings.Replace("hello//world//g", "//", "/", -1))
 
 	aa := `{"gateway":"\u003c{manage_gateway}\u003e","ip":"\u003c{manage_ip}\u003e","ip_src":"static|dhcp","netmask":"\u003c{manage_netmask}\u003e"}`
 
 	fmt.Println(strings.Replace(aa, "\\u003c{manage_gateway}\\u003e", "255.255.255.0", -1))
+
+}
+
+func TestIndex(t *testing.T) {
+	var s = "hello.tar.gz"
+	fmt.Println(s[strings.Index(s, "."):])
 
 }
 
@@ -326,15 +333,15 @@ func TestReplaceAll(t *testing.T) {
 
 }
 
-func TestEq(t *testing.T){
+func TestEq(t *testing.T) {
 	var ss []string
 	var s string
 	ss = nil
 	println(ss)
 	println(s)
 
-	println(strings.Join(ss,","))
-	println(strings.Join(ss,",")==s)
+	println(strings.Join(ss, ","))
+	println(strings.Join(ss, ",") == s)
 }
 
 func TestField(t *testing.T) {

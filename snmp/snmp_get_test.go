@@ -5,7 +5,7 @@ import (
 	"log"
 	"testing"
 
-	g "github.com/soniah/gosnmp"
+	g "github.com/gosnmp/gosnmp"
 )
 
 func TestSNMPGet(t *testing.T) {

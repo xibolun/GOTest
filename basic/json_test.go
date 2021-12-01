@@ -2,8 +2,8 @@ package basic
 
 import (
 	"encoding/json"
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func TestJsonArray2Struct(t *testing.T) {
@@ -36,7 +36,7 @@ type RespBody struct {
 	Content map[string]interface{} `json:"content,omitempty"`
 }
 
-func TestUnmashal(t *testing.T) {
+func TestUnmarshal(t *testing.T) {
 	str := `  {"status":"success","message":"操作成功","content":{"content":[{"sn":"fajdlfjalf","app_user_name":"","app_user":"","app_user_uuid":"","company":"","model_name":"","buyer_name":"","buy_time":"","expired_time":"","power_supply_num":0,"assign_status":"","oob_username":"","oob_password":"","level":0,"usage":"","environment":"","spec":"","asset_number":"","location":"","location_id":0,"biz_ip":"","oob_ip":"","os":"","status":"","opt_username":"","opt_user":"","opt_user_uuid":"","user_id":"","remark":"","origin_node":"","content":""}],"import_result":{"limit":8000,"repeat":0,"import_num":1,"total_now":515},"import_status":true,"message":"操作成功","record_count":1,"status":"success"}}`
 
 	var out RespBody
@@ -102,7 +102,7 @@ func TestProgressLogString(t *testing.T) {
 
 }
 
-func TestUnmashal2(t *testing.T) {
+func TestUnmarshal2(t *testing.T) {
 	// null 和 0都會轉成0
 	str := `{"age": 0}`
 	type Age struct {
@@ -113,6 +113,15 @@ func TestUnmashal2(t *testing.T) {
 	json.Unmarshal([]byte(str), &age)
 
 	fmt.Println(age.Age)
+}
+
+func TestUnmarshal3(t *testing.T) {
+	b := []byte{123, 125}
+	var p *progressLog
+	if err := json.Unmarshal(b, p); err != nil {
+		t.Error(err)
+	}
+	fmt.Printf("%v", p)
 }
 
 func TestUnmarshalOption(t *testing.T) {
