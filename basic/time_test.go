@@ -157,6 +157,15 @@ func Test_Ticket(t *testing.T) {
 	}()
 }
 
+func Test_Ticket2(t *testing.T) {
+	for {
+		select {
+		case <-time.Tick(1 * time.Second):
+			fmt.Println("hello")
+		}
+	}
+}
+
 func Test_Duration(t *testing.T) {
 	t1 := time.Now()
 	time.Sleep(1 * time.Second)
@@ -206,4 +215,15 @@ DONE:
 	}
 
 	fmt.Println("for done")
+}
+
+func Test_Unix(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		v := time.Now().UnixNano()
+		fmt.Println(v)
+		fmt.Printf("%f \n", float32(v))
+		fmt.Printf("%f \n", float64(v))
+
+	}
+	fmt.Printf("%f \n", float32(time.Now().UnixNano()))
 }

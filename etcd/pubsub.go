@@ -14,10 +14,13 @@ type EPS struct {
 }
 
 const (
-	Queue    = "hammer"
+	Queue = "hammer"
 	CAFile   = "/Users/pgy/Qiniu/etc/etcd/ca.pem"
 	KeyFile  = "/Users/pgy/Qiniu/etc/etcd/client-key.pem"
 	CertFile = "/Users/pgy/Qiniu/etc/etcd/client.pem"
+	//CAFile   = ""
+	//KeyFile  = ""
+	//CertFile = ""
 )
 
 var gEPS *EPS
@@ -28,7 +31,7 @@ func init() {
 	}
 
 	conf := clientv3.Config{
-		Endpoints:   []string{"127.0.0.1:2379"},
+		Endpoints:   []string{"10.20.97.32:2379"},
 		DialTimeout: 5 * time.Second,
 	}
 
