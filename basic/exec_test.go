@@ -2,9 +2,13 @@ package basic
 
 import (
 	"bufio"
+	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"os"
 	"os/exec"
+	"syscall"
 	"testing"
 	"time"
 )
@@ -71,7 +75,7 @@ func TestTimeoutCancelFailureCommand(t *testing.T) {
 // === RUN   TestSingleTimeoutCommand
 //    exec_test.go:27: signal: killed
 func TestTimeoutCancelCommand(t *testing.T) {
-	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	cmd := exec.CommandContext(ctx, "/bin/bash", "/tmp/a.sh")
@@ -142,7 +146,64 @@ LoopBreak:
 		}
 	}
 
+	err = cmd.Wait()
+	if err != nil {
+		exitErr := err.(*exec.ExitError)
+		status := exitErr.Sys().(syscall.WaitStatus)
+		if status.ExitStatus() == 0 {
+			fmt.Printf("wrong exit status: %v", status.ExitStatus())
+		}
+	}
+
 	fmt.Println(stdoutStr)
 	fmt.Println(stderrStr)
 	fmt.Println("exec done")
+}
+
+// get stdout
+//
+// === RUN   TestSingleTimeoutCommand
+//    exec_test.go:27: signal: killed
+func TestLongTimeoutStdoutCommand(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, "/bin/bash", "/tmp/a.sh")
+
+	stdoutIn, _ := cmd.StdoutPipe()
+	stderrIn, _ := cmd.StderrPipe()
+
+	var errStdout, errStderr error
+	var stdoutBuf, stderrBuf bytes.Buffer
+
+	// 将stdout写入os.stdout当中
+	stdout := io.MultiWriter(os.Stdout, &stdoutBuf)
+	stderr := io.MultiWriter(os.Stderr, &stderrBuf)
+
+	err := cmd.Start()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	go func() {
+		_, errStdout = io.Copy(stdout, stdoutIn)
+	}()
+	go func() {
+		_, errStderr = io.Copy(stderr, stderrIn)
+	}()
+
+	err = cmd.Wait()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	if errStdout != nil || errStderr != nil {
+		fmt.Printf("failed to capture stdout or stderr\n")
+		return
+	}
+
+	outStr, errStr := string(stdoutBuf.Bytes()), string(stderrBuf.Bytes())
+	fmt.Printf("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
 }
