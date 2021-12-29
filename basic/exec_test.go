@@ -78,7 +78,8 @@ func TestTimeoutCancelCommand(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, "/bin/bash", "/tmp/a.sh")
+	//cmd := exec.CommandContext(ctx, "/bin/bash", "/tmp/a.sh")
+	cmd := exec.CommandContext(ctx, "uname", "-a")
 
 	stdoutPipe, _ := cmd.StdoutPipe()
 	stderrPipe, _ := cmd.StderrPipe()
@@ -143,15 +144,19 @@ LoopBreak:
 			stdoutStr += str
 		case str := <-stderrChan:
 			stderrStr += str
-		}
-	}
-
-	err = cmd.Wait()
-	if err != nil {
-		exitErr := err.(*exec.ExitError)
-		status := exitErr.Sys().(syscall.WaitStatus)
-		if status.ExitStatus() == 0 {
-			fmt.Printf("wrong exit status: %v", status.ExitStatus())
+		case <-time.After(10 * time.Millisecond):
+			if err = cmd.Wait(); err != nil {
+				if err.Error() == "exec: Wait was already called" {
+					break LoopBreak
+				}
+				if exiterr, ok := err.(*exec.ExitError); ok {
+					status := exiterr.Sys().(syscall.WaitStatus)
+					if status.ExitStatus() == 0 {
+						stderrStr = fmt.Sprintf("wrong exit status: %d", status.ExitStatus())
+						break LoopBreak
+					}
+				}
+			}
 		}
 	}
 
