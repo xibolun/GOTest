@@ -3,6 +3,7 @@ package basic
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 	"testing"
 )
 
@@ -209,6 +210,10 @@ func TestAppend3(t *testing.T) {
 
 }
 
+func TestRemoveEl(t *testing.T) {
+	t.Log(splitKeyword(`aa bb  cc '' " " dd`))
+}
+
 func copySlicePoint(src []int) []*int {
 	var dst2 []*int
 	for _, i := range src {
@@ -232,4 +237,30 @@ func copySlice(src []int) []int {
 		dst2 = append(dst2, i)
 	}
 	return dst2
+}
+
+func splitKeyword(keyword string) []string {
+	str := make([]string, 0)
+	if strings.Contains(keyword, ",") {
+		str = strings.Split(keyword, ",")
+	}
+	if strings.Contains(keyword, " ") {
+		str = strings.Split(keyword, " ")
+	}
+
+	if strings.Contains(keyword, "\n") {
+		str = strings.Split(keyword, "\n")
+	}
+	if len(str) <= 0 {
+		return []string{keyword}
+	}
+
+	for i := len(str) - 1; i >= 0; i-- {
+		if str[i] == "" || str[i] == `""` || str[i] == "''" || str[i] == `"` || str[i] == "'" {
+			str = append(str[:i], str[i+1:]...)
+		}
+	}
+	fmt.Println(len(str))
+
+	return str
 }

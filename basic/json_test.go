@@ -3,6 +3,7 @@ package basic
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -138,4 +139,28 @@ func TestUnmarshalOption(t *testing.T) {
 		t.Error(err)
 	}
 
+}
+
+func TestUnmarshalDiskDriver(t *testing.T) {
+
+	// PhysicalDrive 物理驱动器条目
+	type PhysicalDrive struct {
+		Name            string `json:"name" comment:"名称"`    // 硬件位置/名称
+		Manufacturer    string `json:"vendor" comment:"厂商"`  // 厂商
+		Model           string `json:"model" comment:"型号"`   // 型号
+		WWN             string `json:"wwn" comment:"WWN"`    // wwn
+		SerialNumber    string `json:"serial" comment:"序列号"` // 序列号
+		MediaType       string `json:"rota" comment:"媒体类型"`  // 媒体类型
+		Size            string `json:"size" comment:"容量"`    // 容量，单位byte。
+		FirmwareVersion string `json:"rev" comment:"固件版本"`   // 固件版本
+		FirmwareState   string `json:"state" comment:"固件状态"` // 固件状态
+	}
+	jsonStr := `{"name": "sda", "rota": "1", "type": "disk", "size": "279.4G", "state": "running", "rev": "1004", "vendor": "TOSHIBA ", "model": "AL13SEB300      ", "serial": "500003971801b808", "wwn": "0x500003971801b808"},`
+
+	var driver PhysicalDrive
+	if err := json.Unmarshal([]byte(strings.TrimRight(jsonStr, ",")), &driver); err != nil {
+		fmt.Println(err.Error())
+	}
+
+	fmt.Println(driver)
 }

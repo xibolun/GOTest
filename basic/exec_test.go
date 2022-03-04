@@ -78,14 +78,14 @@ func TestTimeoutCancelCommand(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	//cmd := exec.CommandContext(ctx, "/bin/bash", "/tmp/a.sh")
-	cmd := exec.CommandContext(ctx, "uname", "-a")
+	cmd := exec.CommandContext(ctx, "/bin/bash", "/tmp/a.sh")
+	//cmd := exec.CommandContext(ctx, "lspci")
 
 	stdoutPipe, _ := cmd.StdoutPipe()
 	stderrPipe, _ := cmd.StderrPipe()
 
-	outReader := bufio.NewReader(stdoutPipe)
-	errReader := bufio.NewReader(stderrPipe)
+	outReader := bufio.NewReaderSize(stdoutPipe, 2*1024*1024)
+	errReader := bufio.NewReaderSize(stderrPipe, 2*1024*1024)
 
 	stdoutChan := make(chan string, 0)
 	stderrChan := make(chan string, 0)
@@ -104,7 +104,7 @@ func TestTimeoutCancelCommand(t *testing.T) {
 				stdoutChan <- line
 			}
 
-			if err != nil {
+			if err != nil && err != io.EOF && err.Error() != "read |0: file already closed" {
 				stderrChan <- err.Error()
 				return
 			}
@@ -122,7 +122,7 @@ func TestTimeoutCancelCommand(t *testing.T) {
 				stderrChan <- line
 			}
 
-			if err != nil {
+			if err != nil && err != io.EOF && err.Error() != "read |0: file already closed" {
 				stderrChan <- err.Error()
 				return
 			}
@@ -144,9 +144,9 @@ LoopBreak:
 			stdoutStr += str
 		case str := <-stderrChan:
 			stderrStr += str
-		case <-time.After(10 * time.Millisecond):
+		case <-time.After(100 * time.Millisecond):
 			if err = cmd.Wait(); err != nil {
-				if err.Error() == "exec: Wait was already called" {
+				if err.Error() == "exec: Wait was already called" || err == os.ErrClosed {
 					break LoopBreak
 				}
 				if exiterr, ok := err.(*exec.ExitError); ok {
@@ -160,8 +160,8 @@ LoopBreak:
 		}
 	}
 
-	fmt.Println(stdoutStr)
-	fmt.Println(stderrStr)
+	fmt.Println("stdout", stdoutStr)
+	fmt.Println("stderr", stderrStr)
 	fmt.Println("exec done")
 }
 
@@ -211,4 +211,27 @@ func TestLongTimeoutStdoutCommand(t *testing.T) {
 
 	outStr, errStr := string(stdoutBuf.Bytes()), string(stderrBuf.Bytes())
 	fmt.Printf("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
+}
+
+func TestOutputTimeout(t *testing.T) {
+	argv := []string{"-c", "/tmp/a.sh"}
+	attr := new(os.ProcAttr)
+	newProcess, err := os.StartProcess("/bin/bash", argv, attr) //运行脚本
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("Process PID", newProcess.Pid)
+	processState, err := newProcess.Wait() //等待命令执行完
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("processState PID:", processState.Pid()) //获取PID
+	fmt.Println("ProcessExit:", processState.Exited())   //获取进程是否退出
+}
+
+func TestCmdRunTimeout2(t *testing.T) {
+	err, _ := CmdRunWithTimeout("ping www.baidu.com", 10*time.Second)
+	if err != nil {
+		t.Error(err.Error())
+	}
 }

@@ -13,6 +13,7 @@ require (
 	github.com/damonchen/rubymarshal v0.0.0-20190912082001-c9ea9b37b16f
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
+	github.com/elastic/go-elasticsearch/v7 v7.16.0 // indirect
 	github.com/go-chi/chi v1.5.4
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/btree v1.0.1 // indirect
