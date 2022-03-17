@@ -155,9 +155,10 @@ func TestUnmarshalDiskDriver(t *testing.T) {
 		FirmwareVersion string `json:"rev" comment:"固件版本"`   // 固件版本
 		FirmwareState   string `json:"state" comment:"固件状态"` // 固件状态
 	}
-	jsonStr := `{"name": "sda", "rota": "1", "type": "disk", "size": "279.4G", "state": "running", "rev": "1004", "vendor": "TOSHIBA ", "model": "AL13SEB300      ", "serial": "500003971801b808", "wwn": "0x500003971801b808"},`
+	//jsonStr := `{"name": "sda", "rota": "1", "type": "disk", "size": "279.4G", "state": "running", "rev": "1004", "vendor": "TOSHIBA ", "model": "AL13SEB300      ", "serial": "500003971801b808", "wwn": "0x500003971801b808"},`
+	jsonStr := ``
 
-	var driver PhysicalDrive
+	var driver *PhysicalDrive
 	if err := json.Unmarshal([]byte(strings.TrimRight(jsonStr, ",")), &driver); err != nil {
 		fmt.Println(err.Error())
 	}

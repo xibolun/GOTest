@@ -193,3 +193,19 @@ next:
 	}
 	fmt.Println("Completed", prefix)
 }
+
+func TestInnerFuncWait(t *testing.T) {
+	var wg sync.WaitGroup
+
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func(i int) {
+			fmt.Println(i)
+			defer wg.Done()
+		}(i)
+	}
+
+	wg.Wait()
+
+	fmt.Println("program is done")
+}

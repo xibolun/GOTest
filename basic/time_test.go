@@ -23,6 +23,7 @@ func Test_time(t *testing.T) {
 	// format
 	fmt.Printf("current time (ANSIC): %s\n", time.Now().Format(time.ANSIC))
 	fmt.Printf("current time (Stamp): %s\n", time.Now().Format(time.Stamp))
+	fmt.Printf("current time (epoch): %d\n", time.Now().Unix())
 	fmt.Printf("current time (RFC1123): %s\n", time.Now().Format(time.RFC1123))
 	fmt.Printf("current time (UnixDate): %s\n", time.Now().Format(time.UnixDate))
 	fmt.Printf("current time (Stamp): %s\n", time.Now().Format(time.Stamp))
@@ -54,6 +55,16 @@ func Test_time(t *testing.T) {
 	fmt.Printf("string date to time %s\n", StrToTime("2018-05-08", "2006-01-02"))
 	fmt.Printf("isEqual: %t\n", time.Now().Equal(time.Now())) //time.now两次是不相等的
 	fmt.Printf("isEqual: %t\n", StrToTime("2018-05-08", "2006-01-02").Equal(StrToTime("2018-05-08", "2006-01-02")))
+
+	// unix epoch to string
+	tls := time.Now().Unix()
+	tlms := time.Now().UnixMilli()
+	tlus := time.Now().UnixMicro()
+	tlns := time.Now().UnixNano()
+	fmt.Println("epoch s to date string", time.Unix(tls, 0).Format("2006-01-02 15:04:05"))
+	fmt.Println("epoch ms to date string", time.Unix(tlms/1000, 0).Format("2006-01-02 15:04:05"))
+	fmt.Println("epoch us to date string", time.Unix(tlus/1000000, 0).Format("2006-01-02 15:04:05"))
+	fmt.Println("epoch ns to date string", time.Unix(tlns/1000000000, 0).Format("2006-01-02 15:04:05"))
 
 	startTime := time.Now()
 	fmt.Printf("startTime is: %s\n", startTime)
