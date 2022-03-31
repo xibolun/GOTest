@@ -12,8 +12,8 @@ func TestP(t *testing.T) {
 	// set max p
 	fmt.Printf("runtime.GOMAXPROCS output: %d \n", runtime.GOMAXPROCS(10))
 	// get cpu num
-	//fmt.Println(runtime.NumCPU())
-	fmt.Printf("runtime.NumCPU() output: %d \n", runtime.NumCPU)
+	fmt.Println(runtime.NumCPU())
+	//fmt.Printf("runtime.NumCPU() output: %d \n", runtime.NumCPU)
 }
 
 func TestNot(t *testing.T) {

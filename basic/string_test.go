@@ -98,6 +98,8 @@ func TestReplace(t *testing.T) {
 func TestIndex(t *testing.T) {
 	var s = "hello.tar.gz"
 	fmt.Println(s[strings.Index(s, "."):])
+	s = "10m20.434343s"
+	fmt.Println(s[:strings.Index(s, ".")] + "s")
 
 }
 
