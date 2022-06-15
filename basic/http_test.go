@@ -45,3 +45,15 @@ func Test_Resty(t *testing.T) {
 	}
 	t.Logf("%v", resp)
 }
+
+func TestTimeout(t *testing.T) {
+	httpCli := &http.Client{Timeout: 10*time.Second}
+
+	rsp, err := httpCli.Get("http://google.com")
+	if err != nil {
+		t.Errorf("fail invoke , %s", err.Error())
+		return
+	}
+
+	t.Logf("rsp is %s", ToJsonString(rsp))
+}

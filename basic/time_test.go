@@ -130,6 +130,7 @@ func TestStringToTime(t *testing.T) {
 
 	fmt.Println(time1)
 	fmt.Println(time2.Format("20060102150405"))
+	fmt.Println(time2.Format("20060102150405000000"))
 }
 
 func Test_LongToStr(t *testing.T) {

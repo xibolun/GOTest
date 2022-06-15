@@ -411,3 +411,7 @@ func BenchmarkIntToStr2(t *testing.B) {
 		strconv.Itoa(a)
 	}
 }
+
+func TestMonkeySubString(t *testing.T) {
+	
+}
