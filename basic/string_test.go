@@ -12,6 +12,8 @@ import (
 	"testing"
 	"time"
 	"unsafe"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func RemoveFunc(s string, f func(rune) bool) string {
@@ -196,7 +198,11 @@ func TestIpmitool(t *testing.T) {
 
 //TestCompare 字符串匹配的时候可以直接对比
 func TestCompare(t *testing.T) {
-	fmt.Println("12/20/2018 15:35:50" < "01/15/2019 07:45:27")
+	ast := assert.New(t)
+
+	ast.Equal(1, strings.Compare("12/20/2018 15:35:50", "01/15/2019 07:45:27"))
+	ast.Equal(-1, strings.Compare("/dev/sda", "/dev/sdb"))
+	ast.Equal(-1, strings.Compare("/dev/nvme121", "/dev/nvme12p"))
 }
 
 func TestNullSlice(t *testing.T) {
@@ -413,5 +419,5 @@ func BenchmarkIntToStr2(t *testing.B) {
 }
 
 func TestMonkeySubString(t *testing.T) {
-	
+
 }

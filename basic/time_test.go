@@ -32,6 +32,7 @@ func Test_time(t *testing.T) {
 	fmt.Printf("current time (YYYY-MM-DD HH:mm:ss): %s\n", time.Now().Format("2006-01-02 15:04:05"))
 	fmt.Printf("current time (YYYY-MM-DD HH:mm): %s\n", time.Now().Format("2006-01-02 15:04"))
 	fmt.Printf("current time (YYYYMMDDHHmmss): %s\n", time.Now().Format("20060102150405"))
+	fmt.Printf("current time (YYYYMMDDHHmmss.millions): %s\n", time.Now().Format("20060102150405.000000"))
 
 	// year month day weekday
 	fmt.Printf("year day: %d\n", time.Now().YearDay())
@@ -176,6 +177,32 @@ func Test_Ticket2(t *testing.T) {
 			fmt.Println("hello")
 		}
 	}
+}
+
+func Test_ticket3(t *testing.T) {
+	ticker := time.NewTicker(1 * time.Second)
+	for {
+		select {
+		case <-ticker.C:
+			fmt.Printf("start ticket, %s\n", time.Now().String())
+			time.Sleep(2 * time.Second)
+		}
+	}
+
+}
+
+func Test_ticket4(t *testing.T) {
+	ticker := time.NewTicker(1 * time.Second)
+	for {
+		select {
+		case <-ticker.C:
+			fmt.Printf("start ticket, %s\n", time.Now().String())
+			go func(){
+				time.Sleep(2 * time.Second)
+			}()
+		}
+	}
+
 }
 
 func Test_Duration(t *testing.T) {
