@@ -1,0 +1,67 @@
+{
+  "json_format_version": [
+    1,
+    0
+  ],
+  "smartctl": {
+    "version": [
+      7,
+      0
+    ],
+    "svn_revision": "4883",
+    "platform_info": "x86_64-linux-5.10.5-1.el7.elrepo.x86_64",
+    "build_info": "(local build)",
+    "argv": [
+      "smartctl",
+      "-i",
+      "-j",
+      "/dev/nvme1"
+    ],
+    "exit_status": 0
+  },
+  "device": {
+    "name": "/dev/nvme1",
+    "info_name": "/dev/nvme1",
+    "type": "nvme",
+    "protocol": "NVMe"
+  },
+  "model_name": "MZ1LB960HBJR-000FB",
+  "serial_number": "S5XBNA0R330549",
+  "firmware_version": "EDW73F2Q",
+  "nvme_pci_vendor": {
+    "id": 5197,
+    "subsystem_id": 5197
+  },
+  "nvme_ieee_oui_identifier": 9528,
+  "nvme_total_capacity": 900185481216,
+  "nvme_unallocated_capacity": 0,
+  "nvme_controller_id": 4,
+  "nvme_number_of_namespaces": 1,
+  "nvme_namespaces": [
+    {
+      "id": 1,
+      "size": {
+        "blocks": 219771846,
+        "bytes": 900185481216
+      },
+      "capacity": {
+        "blocks": 219771846,
+        "bytes": 900185481216
+      },
+      "utilization": {
+        "blocks": 186112076,
+        "bytes": 762315063296
+      },
+      "formatted_lba_size": 4096
+    }
+  ],
+  "user_capacity": {
+    "blocks": 219771846,
+    "bytes": 900185481216
+  },
+  "logical_block_size": 4096,
+  "local_time": {
+    "time_t": 1664423395,
+    "asctime": "Thu Sep 29 11:49:55 2022 CST"
+  }
+}

@@ -134,6 +134,11 @@ func TestStringToTime(t *testing.T) {
 	fmt.Println(time2.Format("20060102150405000000"))
 }
 
+func TestConvertTimeToUnixMilli(t *testing.T) {
+	t1 := time.Now().Add(20 * time.Minute)
+	fmt.Println(t1.UnixMilli())
+}
+
 func Test_LongToStr(t *testing.T) {
 
 	t1 := TimestampToTime(1547696100).String()
@@ -197,7 +202,7 @@ func Test_ticket4(t *testing.T) {
 		select {
 		case <-ticker.C:
 			fmt.Printf("start ticket, %s\n", time.Now().String())
-			go func(){
+			go func() {
 				time.Sleep(2 * time.Second)
 			}()
 		}

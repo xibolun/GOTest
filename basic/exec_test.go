@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"io"
 	"os"
 	"os/exec"
@@ -234,4 +235,57 @@ func TestCmdRunTimeout2(t *testing.T) {
 	if err != nil {
 		t.Error(err.Error())
 	}
+}
+
+func TestCmdOutput(t *testing.T) {
+	ast := assert.New(t)
+
+	output, err := exec.Command("cat", "/tmp/aa.sh").CombinedOutput()
+	ast.NotNil(err)      // exit status 1
+	ast.NotEmpty(output) // cat: /tmp/aa.sh: No such file or directory
+}
+
+func TestCmdOutputPipeline(t *testing.T) {
+	ast := assert.New(t)
+
+	output, err := exec.Command("cat", "/tmp/aa.sh", "|", "grep", "aa").CombinedOutput()
+	ast.NotNil(err) // exit status 1
+	//cat: /tmp/aa.sh: No such file or directory
+	//cat: |: No such file or directory
+	//cat: grep: No such file
+	ast.NotEmpty(output)
+}
+
+func TestCmdOutputPipeline1(t *testing.T) {
+	ast := assert.New(t)
+
+	output, err := exec.Command(`cat /tmp/aa.sh | grep aa`).CombinedOutput()
+	ast.NotNil(err)   // fork/exec cat /tmp/aa.sh | grep aa: no such file or directory
+	ast.Empty(output) // nil
+}
+
+func TestCmdOutputPipeline2(t *testing.T) {
+	ast := assert.New(t)
+	var stdout, stderr bytes.Buffer
+
+	cmd := exec.Command(`cat /tmp/aa.sh | grep aa`)
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err := cmd.Run()
+	ast.NotNil(err) // fork/exec cat /tmp/aa.sh | grep aa: no such file or directory
+	ast.Empty(stderr.Bytes())
+	ast.Empty(stdout.Bytes())
+}
+
+func TestCmdOutputPipeline3(t *testing.T) {
+	ast := assert.New(t)
+	var stdout, stderr bytes.Buffer
+
+	cmd := exec.Command("/bin/bash", "-c", `cat /tmp/aa.sh | grep aa`)
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err := cmd.Run()
+	ast.NotNil(err)              // exit status 1
+	ast.NotEmpty(stderr.Bytes()) // cat: /tmp/aa.sh: No such file or directory
+	ast.Empty(stdout.Bytes())
 }

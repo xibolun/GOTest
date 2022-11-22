@@ -1,0 +1,39 @@
+{
+  "json_format_version": [
+    1,
+    0
+  ],
+  "smartctl": {
+    "version": [
+      7,
+      0
+    ],
+    "svn_revision": "4883",
+    "platform_info": "x86_64-linux-5.4.199-200.cjktty.el7.x86_64",
+    "build_info": "(local build)",
+    "argv": [
+      "smartctl",
+      "-A",
+      "-H",
+      "-d",
+      "scsi",
+      "/dev/sda",
+      "-j"
+    ],
+    "exit_status": 0
+  },
+  "device": {
+    "name": "/dev/sda",
+    "info_name": "/dev/sda",
+    "type": "scsi",
+    "protocol": "SCSI"
+  },
+  "smart_status": {
+    "passed": true
+  },
+  "temperature": {
+    "current": 40,
+    "drive_trip": 65
+  },
+  "scsi_grown_defect_list": 0
+}

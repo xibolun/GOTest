@@ -1,0 +1,59 @@
+{
+  "json_format_version": [
+    1,
+    0
+  ],
+  "smartctl": {
+    "version": [
+      7,
+      0
+    ],
+    "svn_revision": "4883",
+    "platform_info": "x86_64-linux-5.10.5-1.el7.elrepo.x86_64",
+    "build_info": "(local build)",
+    "argv": [
+      "smartctl",
+      "--scan-open",
+      "-j"
+    ],
+    "exit_status": 0
+  },
+  "devices": [
+    {
+      "name": "/dev/sda",
+      "info_name": "/dev/sda [SAT]",
+      "type": "sat",
+      "protocol": "ATA"
+    },
+    {
+      "name": "/dev/sda",
+      "info_name": "/dev/sda",
+      "type": "scsi",
+      "protocol": "SCSI"
+    },
+    {
+      "name": "/dev/nvme0",
+      "info_name": "/dev/nvme0",
+      "type": "nvme",
+      "protocol": "NVMe"
+    },
+    {
+      "name": "/dev/nvme1",
+      "info_name": "/dev/nvme1",
+      "type": "nvme",
+      "protocol": "NVMe"
+    },
+    {
+      "name": "/dev/nvme2",
+      "info_name": "/dev/nvme2",
+      "type": "nvme",
+      "protocol": "NVMe"
+    },
+    {
+      "name": "/dev/nvme3",
+      "info_name": "/dev/nvme3",
+      "type": "nvme",
+      "protocol": "NVMe"
+    }
+  ]
+}
