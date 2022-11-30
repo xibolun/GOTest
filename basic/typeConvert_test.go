@@ -3,6 +3,8 @@ package basic
 import (
 	"encoding/binary"
 	"fmt"
+	"github.com/stretchr/testify/assert"
+	"math"
 	"reflect"
 	"strconv"
 	"strings"
@@ -88,4 +90,21 @@ func strToInt(str string) int {
 func strToBool(str string) bool {
 	v, _ := strconv.ParseBool(str)
 	return v
+}
+
+func TestFloat64ToInt(t *testing.T) {
+	ast := assert.New(t)
+
+	vv := map[float64]int{
+		3.2:      3,
+		3.200001: 3,
+		3.500001: 4,
+		0:        0,
+		-3.2:     -3,
+		-3.9:     -4,
+	}
+
+	for k, v := range vv {
+		ast.Equal(v, int(math.Round(k)))
+	}
 }
