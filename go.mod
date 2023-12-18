@@ -29,8 +29,7 @@ require (
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	github.com/zeromicro/go-zero v1.4.4
 	go.mongodb.org/mongo-driver v1.11.1
-	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
-	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
+	golang.org/x/crypto v0.17.0
 	gopkg.in/resty.v1 v1.12.0
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
